@@ -62,5 +62,8 @@
           $mes= "Diciembre";
           break;
     }
-    echo  $dia . ", " . date("j") . " de " . $mes . " de " . date("Y");         
+    echo  $dia . ", " . date("j") . " de " . $mes . " de " . date("Y");  
+    
+   
+        
         ?>

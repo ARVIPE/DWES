@@ -12,13 +12,39 @@
 require_once 'funciones.php';
 if(isset($_POST["enviar"])){
     
-    $matriz=crearMatriz($_POST['$filas'], $_POST['$columnas']);
+    $matriz=crearMatriz($_POST['filas'], $_POST['columnas']);
     mostrarMatriz($matriz);
     
-    $sumamatriz=sumafilas($matriz);
+    $sumaFilas=sumafilas($matriz);
     
-    foreach($sumamatriz as $valor){
+    foreach($sumaFilas as $valor){
         echo $valor;
+        echo "<br>";
+    }
+    
+    $sumaColumnas=sumacolumnas($matriz);
+    
+    foreach($sumaColumnas as $valor){
+        echo $valor;
+        echo "<br>";
+    }
+    
+    $sumaFilasyColumnas=sumaFilasyColumnas($matriz);
+    
+    foreach($sumaFilasyColumnas as $valor){
+        echo $valor;
+        echo "<br>";
+    }
+    
+    $sumaDiagonal=sumadiagonal($matriz);
+    
+    echo end( $sumaDiagonal );
+    
+    $matrizTraspuesta= matrizTraspuesta($matriz);
+    
+    foreach($matrizTraspuesta as $valor){
+        echo $valor;
+        echo "<br>";
     }
     
 }
