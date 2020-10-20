@@ -40,12 +40,10 @@ if(isset($_POST["enviar"])){
     
     echo end( $sumaDiagonal );
     
-    $matrizTraspuesta= matrizTraspuesta($matriz);
     
-    foreach($matrizTraspuesta as $valor){
-        echo $valor;
-        echo "<br>";
-    }
+    $tra=traspuesta($matriz);
+    mostrarMatriz($tra);
+    
     
 }
 

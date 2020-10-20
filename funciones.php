@@ -95,17 +95,14 @@ function sumaDiagonal($matriz){
    return $sumamatriz;
 }
 
-
-function matrizTraspuesta($matriz){
-    
-    for($i = 0; $i < $filas; $i++){
-        for($j = 0; $j < $columnas; $j++){
-            $matriz[$i][$j] = $matrizTraspuesta[$j][$i];
-        }
+function traspuesta ($matriz){
+    for ($i = 0; $i < count($matriz); $i++) {
+     for ($j = 0; $j < count($matriz[0]); $j++) {
+         $traspuesta[$j][$i]=$matriz[$i][$j];
+        }   
     }
-    return $matrizTraspuesta;
+    return $traspuesta;
 }
-
 
 
 
