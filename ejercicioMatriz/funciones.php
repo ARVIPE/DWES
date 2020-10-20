@@ -101,6 +101,7 @@ function traspuesta ($matriz){
          $traspuesta[$j][$i]=$matriz[$i][$j];
         }   
     }
+    echo "La matriz traspuesta es: <br>";
     return $traspuesta;
 }
 

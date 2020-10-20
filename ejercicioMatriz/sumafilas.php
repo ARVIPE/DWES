@@ -40,7 +40,7 @@ if(isset($_POST["enviar"])){
     
     echo end( $sumaDiagonal );
     
-    
+    echo "<br>";
     $tra=traspuesta($matriz);
     mostrarMatriz($tra);
     
