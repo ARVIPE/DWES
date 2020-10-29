@@ -1,7 +1,6 @@
 <html>
     <head>
         <title>Ejercicio DWES</title>
-        <link rel="stylesheet" href="index.css">
     </head>
     <body>
         <div id="encabezado">
@@ -40,12 +39,18 @@
                 if (!$conex->errno) {
                     if ($result->num_rows) {
                         while ($fila = $result->fetch_array()) {
-                            echo 'Tienda: ' . $fila['nombre'] . ': ' . $fila['unidades'] . ' unidades.<br>';
+                            echo '</br>Tienda: ' . $fila['nombre'];
+                            
+                            ?><input type="text" name="num" value="<?php echo $fila['unidades']; ?>"  /> <?php echo 'unidades';
                         }
+                        ?><input type="submit" value="actualizar"/> <?php
+                        
+                       
                     }
                 } else {
                     echo 'No se ha podido acceder';
                 }
+                  
             }
             ?>
         </div>
