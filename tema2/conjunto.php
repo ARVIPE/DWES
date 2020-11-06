@@ -6,7 +6,7 @@
         <div id="encabezado">
             <h1>Ejercicio: Conjuntos de resultados en MySQLi</h1>
 
-            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+            <form action=" " method="post">
                 <select name="nombre_corto">
                     <?php
                     $conex = new mysqli('localhost', 'dwes', 'abc123.', 'dwes');
@@ -39,18 +39,32 @@
                 if (!$conex->errno) {
                     if ($result->num_rows) {
                         while ($fila = $result->fetch_array()) {
-                            echo '</br>Tienda: ' . $fila['nombre'];
-                            
-                            ?><input type="text" name="num" value="<?php echo $fila['unidades']; ?>"  /> <?php echo 'unidades';
+                            echo "Tienda: " . $fila['nombre'] . " : <input type='text' name'uni[]' value='$fila[unidades]'>";
+
+                            echo "<input type='hidden' name='producto' value='$_POST[nombre_corto]'>";
+                            echo "<input type='hidden' name='codigoTienda[]' value='$fila[nombre]'>";
                         }
-                        ?><input type="submit" value="actualizar"/> <?php
-                        
-                       
                     }
                 } else {
                     echo 'No se ha podido acceder';
                 }
-                  
+                ?><input type="submit" value="actualizar"/> 
+                <?php
+            
+                 if (isset($_POST["actualizar"])) {
+                            $consult = $conex->smt_init();
+                            $consult->prepare('update stock set unidades=? where tienda=? producto=?');
+                            $consult->bind_param('sss', $unidades, $tienda, $producto);
+
+                        for ($i = 0; $i < count($_POST['unidades']); $i++) {
+                            $unidades = $_POST['unidades'][$i];
+                            $tienda = $_POST['cod'][$i];
+                            $producto = $_POST['producto'];
+                            $consult->execute();
+                        }
+                        $result2->close();
+                        $consult->close();
+                    }
             }
             ?>
         </div>
