@@ -36,7 +36,7 @@
 
             <input type="submit" name="enviar" value="enviar"/>
 
-
+            <a href="menu.php">Volver</a>
         </form>
 
         <?php
@@ -49,7 +49,7 @@
 
         echo "Connected successfully";
         
-        if(isset($_POST['enviar'])){
+        if(isset($_POST['enviar']) && preg_match('/^[A-Z]{1,50}/i', $_POST['nombre']) && preg_match('/^[\d]{8}[A-Z]{1}$/', $_POST['dni']) && preg_match('/^[A-Z]{1,50}/i', $_POST['equipo']) && preg_match('/^\d/', $_POST['numgoles'])){
 
             $sql = "INSERT INTO jugadores (dni, nombre, dorsal, posicion, equipo, numgoles) VALUES ('$_POST[dni]', '$_POST[nombre]', '$_POST[dorsal]', '$_POST[posicion]', '$_POST[equipo]', '$_POST[goles]')";
             if (mysqli_query($conn, $sql)) {
