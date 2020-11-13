@@ -1,61 +1,69 @@
 <html>
     <head>
-        <title>title</title>
+        <meta charset="UTF-8">
+        <title>Ejercicio 1</title>
     </head>
+    <style>
+        h1 {margin-bottom:0;}
+        #encabezado {background-color:#ddf0a4;}
+        #contenido {background-color:#EEEEEE;height:600px;}
+        #pie {background-color:#ddf0a4;color:#ff0000;height:30px;}
+    </style>
+
     <body>
-        <h1>Ejercicio Conjunto de Resultados Mysqli</h1>
+        <div id="encabezado">
+            <h1>Conjunto de resultados en Mysqli</h1>
+            <form action="" method="post">
+                Producto: <select name="nombre_corto">
 
-        <form action=" " target="_blank">
+                    <?php
+                    $conexion = new mysqli('localhost', 'dwes', 'abc123.', 'dwes');
 
-            <p>
+                    if (!$conexion->connect_errno) {
 
-                Producto:
+                        //$conexion->autocommit(false);
 
-               
+                        $result = $conexion->query('SELECT cod, nombre_corto from producto');
 
-                   <?php
-                   
-                   echo "<select>";
-                        $conec = new mysqli('localhost','dwes','abc123.','dwes');
-                        $result = $conec->query("SELECT * FROM producto");
-                        
-                        if (!$conec->errno) {
+                        if (!$conexion->errno) {
                             if ($result->num_rows) {
-                                while ($fila = $result->fetch_object()) {
-                                    echo "<option>". $fila->nombre_corto. "</option>";
+
+                                while ($fila = $result->fetch_array()) {
+
+                                    echo '<option value="' . $fila['cod'] . '">' . $fila['nombre_corto'] . '</option>';
                                 }
                             }
-                        }
-                    echo "</select>"; 
-                    
-                        ?>
-
-
-
-            </p>
-            <input type="submit" value="Mostrar Stock">
-
-
-            <h1>Stock del producto en las tiendas</h1>
-
-            <?php
-            if (!empty($_POST['nombre_corto'])) {
-                $producto = $_POST['nombre_corto'];
-                $result = $conex->query('select ti.nombre, st.unidades from stock st join tienda ti where ti.cod=st.tienda and st.producto="' . $producto . '"');
-
-                if (!$conex->errno) {
-                    if ($result->num_rows) {
-                        while ($fila = $result->fetch_array()) {
-                            echo 'Tienda: ' . $fila['nombre'] . ': ' . $fila['unidades'] . ' unidades.<br>';
+                        } else {
+                            echo 'No se ha podido hacer la conexión';
                         }
                     }
-                } else {
-                    echo 'No se ha podido acceder';
+                    ?>
+
+                </select>
+
+                <input type="submit" name="enviar" value="mostrar">
+            </form>
+        </div>
+
+        <div id="contenido">
+            <?php
+            if (!empty($_POST['nombre_corto'])) {
+
+                $producto = $_POST['nombre_corto'];
+
+                $result = $conexion->query('SELECT ti.nombre, sto.unidades from tienda as ti JOIN stock as sto where ti.cod=sto.tienda and sto.producto="' . $_POST['nombre_corto'] . '"');
+
+                if (!$conexion->errno) {
+                    if ($result->num_rows) {
+
+                        while ($fila = $result->fetch_array()) {
+                            echo 'Tienda: ' . $fila['nombre'] . ':' . $fila['unidades'] . ' unidades<br/>';
+                        }
+                    }
                 }
             }
             ?>
 
-        </form>
+        </div>
     </body>
 </html>
-

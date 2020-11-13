@@ -12,10 +12,7 @@
 
             $opciones = array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_SERVER_VERSION);
             $dwes = new PDO('mysql:host=localhost; dbname=jugadores; charset=UTF8mb4', 'dwes', 'abc123.', $opciones);
-         /*   $registro = $dwes->exec("select * from jugadores");
-            while($fila = $registro->fetch_array()){
-            echo $fila['nombre'];
-            }*/
+  
             
             $result= $dwes->prepare("select * from jugadores where dorsal=?");
             $dorsal=3;

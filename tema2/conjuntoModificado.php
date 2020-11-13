@@ -1,9 +1,16 @@
 <html>
     <head>
-        <title>conjunto</title>
+        <meta charset="UTF-8">
+        <title>Ejercicio 1</title>
     </head>
-    <body>
+    <style>
+        h1 {margin-bottom:0;}
+        #encabezado {background-color:#ddf0a4;}
+        #contenido {background-color:#EEEEEE;height:600px;}
+        #pie {background-color:#ddf0a4;color:#ff0000;height:30px;}
+    </style>
 
+    <body>
         <div id="encabezado">
             <h1>Conjunto de resultados en Mysqli</h1>
             <form action="" method="post">
@@ -12,75 +19,77 @@
                     <?php
                     $conexion = new mysqli('localhost', 'dwes', 'abc123.', 'dwes');
 
-
                     if (!$conexion->connect_errno) {
+
+                        //$conexion->autocommit(false);
 
                         $result = $conexion->query('SELECT cod, nombre_corto from producto');
 
-                        if (!$conexion->erno) {
+                        if (!$conexion->errno) {
                             if ($result->num_rows) {
+
                                 while ($fila = $result->fetch_array()) {
 
-                                    echo '<option value"' . $fila['cod'] . '">' . $fila['nombre_corto'] . '</option>';
+                                    echo '<option value="' . $fila['cod'] . '">' . $fila['nombre_corto'] . '</option>';
                                 }
                             }
                         } else {
-                            echo'No se ha podido hacer la conexion';
+                            echo 'No se ha podido hacer la conexión';
                         }
                     }
                     ?>
+
                 </select>
 
-                <div id="contenido">
-                    <h1>Stock del producto en tiendas</h1>
-                    <form action=" " method="post">
-                        <?php
-                        if (isset($_POST["mostrar"]) && !empty($_POST['producto'])) {
-                            $result = $conex->query('select ti.nombre, st.unidades from stock st join tienda ti where ti.cod=st.tienda and st.producto="' . $producto . '"');
-
-                            $producto = $_POST['producto'];
-
-                            if ($result) {
-
-                                while ($fila = $result->fetch_array()) {
-                                    echo "Tienda: " . $fila['nombre'] . " : <input type='text' name'uni[]' value='$fila[unidades]'>";
-
-                                    echo "<input type='hidden' name='codigoTienda[]' value='$fila[cod]'>";
-
-                                    echo "<input type='hidden' name='codigoTienda[]' value='$fila[cod]'>";
-                                }
-                                ?>
-
-                                <input type="submit" name="actualizar" value="Actualizar">
-                            </form>
+                <input type="submit" name="mostrar" value="mostrar">
+            </form>
+        </div>
 
 
-                            <?php
+        <div id="contenido">
+            <h1>Stock del producto en tiendas</h1>
+            
+            <form action = "" method = "post" >
+                <?php
+                if (isset($_POST["mostrar"]) && !empty($_POST['producto'])) {
+
+                    $result = $conexion->query('SELECT ti.nombre, ti.cod, sto.unidades from tienda as ti JOIN stock as sto where sto.tienda=ti.cod and sto.producto="' . $_POST['producto'] . '"');
+
+                    $producto = $_POST['producto'];
+
+                    if ($result) {
+                       
+                        while ($fila = $result->fetch_array()) {
+                            echo "Tienda: " . $fila['nombre'] . " : <input type='text' name='uni[]' value='$fila[unidades]'>";
+
+                            echo "<input type='hidden' name='producto' value='$_POST[producto]'>";
+
+                            echo "<input type ='hidden' name ='codigoTienda[]' value ='$fila[cod]'>";
                         }
-                    }
-                    if (isset($_POST["actualizar"])) {
-                            $consult = $conex->smt_init();
-                            $consult->prepare('update stock set unidades=? where tienda=? producto=?');
-                            $consult->bind_param('sss', $unidades, $tienda, $producto);
+                        ?>
 
-                        for ($i = 0; $i < count($_POST['unidades']); $i++) {
-                            $unidades = $_POST['unidades'][$i];
-                            $tienda = $_POST['cod'][$i];
-                            $producto = $_POST['producto'];
-                            $consult->execute();
-                        }
-                        $result2->close();
-                        $consult->close();
-                    }
-                    ?>
+                        <input type="submit" name="actualizar" value="Actualizar">
+                    </form>
+                    <?php
+                }
+            }
 
+            if (isset($_POST['actualizar'])) {
+                echo 'modificado';
+                $result2 = $conexion->stmt_init();
+                $result2->prepare('UPDATE stock SET unidades=? WHERE tienda=? and producto=?');
+                $result2->bind_param('sss', $unidades, $tienda, $_POST['producto']);
+                for ($i = 0; $i < count($_POST['uni']); $i++) {
+                    $unidades = $_POST["uni"][$i];
+                    $tienda = $_POST["codigoTienda"][$i];
+                    $result2->execute();
+                   
+                }
+                $result2->close();
+                $conexion->close();
+            }
+            ?>
 
-
-
-
-                    </div>
-
-
-
-                    </body>
-                    </html>
+        </div>
+    </body>
+</html>
