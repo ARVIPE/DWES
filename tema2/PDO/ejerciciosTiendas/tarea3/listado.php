@@ -18,13 +18,18 @@
                 <form action = "" method = "post">
                     <select name="nombre">
                         <?php
-                        $productos = $conex->query('SELECT * from familia');
-                        while ($nom = $productos->fetchObject()) {
-                            echo '<option value="' . $nom->cod . '" ';
-                            if (!empty($_POST["nombre"]) && $nom->cod == $_POST["nombre"]) {
-                                echo 'selected';
+                        try {
+                            $productos = $conex->query('SELECT * from familia');
+                            while ($nom = $productos->fetchObject()) {
+                                echo '<option value="' . $nom->cod . '" ';
+                                if (!empty($_POST["nombre"]) && $nom->cod == $_POST["nombre"]) {
+                                    echo 'selected';
+                                }
+                                echo ">" . $nom->nombre . '</option>';
                             }
-                            echo ">" . $nom->nombre . '</option>';
+                        } catch (PDOException $exc) {
+                            echo $exc->getTraceAsString(); // error de php
+                            echo 'Error:' . $exc->getMessage(); // error del servidor de bd
                         }
                         ?>
                     </select>
@@ -37,14 +42,12 @@
 
                 <h2>Stock en las tiendas del producto:</h2>
                 <?php
-             
-
-                if (!empty($_POST["nombre"])) {
+                if (!empty($_POST["nombre"])) {             
                     $stock = $conex->query("SELECT nombre_corto, cod, PVP FROM producto WHERE familia='$_POST[nombre]'");
                     echo '<form action = "editar.php" method = "post">';
                     while ($nombre = $stock->fetch(PDO::FETCH_ASSOC)) {
-                        echo "Tienda: " . $nombre["nombre_corto"] . " // Precio: " . $nombre["PVP"] ;
-                        echo "<button type='submit' name='editar' value=".$nombre['cod']." >Editar</button> <br>";
+                        echo "Tienda: " . $nombre["nombre_corto"] . " // Precio: " . $nombre["PVP"];
+                        echo "<button type='submit' name='editar' value=" . $nombre['cod'] . " >Editar</button> <br>";
                     }
                     echo ' </form>';
                 }

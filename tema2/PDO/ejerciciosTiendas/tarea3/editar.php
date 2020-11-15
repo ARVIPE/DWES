@@ -13,27 +13,38 @@
             $error = $conex->errorInfo();
             echo $error[2];
 
-            $productos = $conex->query("SELECT * from producto where cod='$_POST[editar]'");
-            while ($nom = $productos->fetch(PDO::FETCH_ASSOC)) {
-               
-                 echo '<form method="POST" action="">';
-                 echo "Código: <input type='text' name='cod' value=".$nom['cod']." readonly> <br>";   
-                 echo "Nombre: <input type='text' name='nombre' value=".$nom['nombre']."> <br>";
-                 echo "Nombre_corto: <input type='text' name='nombre_corto' value=".$nom['nombre_corto']."> <br>";
-                 echo "Descripción: <textarea rows='15' cols='100' type='text' name='descripcion'>".$nom['descripcion']."</textarea><br>";
-                 echo "Precio: <input type='text' name='nombre_corto' value=".$nom['PVP']."> <br>";
-                 echo '</form>';?>
-                
+            try {
+                $productos = $conex->query("SELECT * from producto where cod='$_POST[editar]'");
+                while ($nom = $productos->fetch(PDO::FETCH_ASSOC)) {
 
-                   
-           
+                    echo '<form method="POST" action="actualizar.php">';
+                    echo "Código: <input type='text' name='cod' value=" . $nom['cod'] . " readonly> <br>";
+                    echo "Nombre: <input type='text' name='nombre' value=" . $nom['nombre'] . "> <br>";
+                    echo "Nombre_corto: <input type='text' name='nombre_corto' value=" . $nom['nombre_corto'] . "> <br>";
+                    echo "Descripción: <textarea rows='15' cols='100' type='text' name='descripcion'>" . $nom['descripcion'] . "</textarea><br>";
+                    echo "Precio: <input type='text' name='PVP' value=" . $nom['PVP'] . "> <br>";
+                    echo "<input type='hidden' name='editar' value=" . $_POST['editar'] . ">";
 
-                    <input type="submit" name="actualizar" value="actualizar"> <br>
-                    <input type="submit" name="cancelar" value="cancelar"> <br>
-               
+                    echo "<button type='submit' name='actualizar'>Actualizar</button>";
+                    echo '</form>';
 
-                <?php
+
+                    echo '<form method="POST" action="listado.php">';
+                    echo "<button type='submit' name='listado'>Cancelar</button>";
+
+                    echo '</form>';
+                    ?>
+
+                    <?php
+                }
+            } catch (PDOException $exc) {
+                echo $exc->getTraceAsString(); // error de php
+                echo 'Error:' . $exc->getMessage(); // error del servidor de bd
             }
+            ?>
+
+
+            <?php
         } catch (PDOException $exc) {
             echo $exc->getTraceAsString(); // error de php
             echo 'Error:' . $exc->getMessage(); // error del servidor de bd
