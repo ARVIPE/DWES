@@ -4,30 +4,44 @@
     </head>
     <body>
 
-        <form action="prueba-cookies.php" method="post">
-            Usuario: <input type="text" name="usuario">
-            <br>
-            Clave: <input type="text" name="clave">
-            <br>
-            <input type="checkbox" name="guardar_clave" value="1">Recuerdame
-            <br>
-            <input type="hidden" name="cookiecreada" value"<?php $_COOKIE['nombre'] ?>">
-            <br>
-            <input type="submit" name="entrar" value="entrar">
-        </form>
-        
         <?php
+        try{
+
+        $opciones = array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_SERVER_VERSION);
+        $conex = new PDO('mysql:host=localhost; dbname=cookie; charset=UTF8mb4', 'dwes', 'abc123.', $opciones);
         
-        if(isset($_POST["entrar"]) && isset($_POST["guardar_clave"])){
-            setcookie("nombre", $_POST['usuario']);
-            setcookie("clave", $_POST['clave']);
-            echo $_COOKIE["nombre"]."<br>";
-            echo $_COOKIE["clave"];
-            setcookie('ultimoAcceso', date('d-m-y h:i:s'), time()+3600);     
+        $error = $conex->errorInfo();
+        echo $error[2];
+
+        if (isset($_POST['entrar']) && (!empty($_POST['usuario'])) && (!empty($_POST['clave']))) {
+            $result = $conex->query("SELECT * from usuarios");
+            $obj = $result->fetch();
+            if($_POST['usuario'] == $obj['usuario'] && md5($_POST['clave']) === $obj['contraseña']){
+                echo "Correcto";
+            }else{
+            echo "Incrorrecto";
+            }
         }
-        
-        
+
+
+        } catch (PDOException $exc) {
+
+        echo $exc->getTraceAsString(); //error de php
+        echo "Error: " . $exc->getMessage(); //error del servidor de la bbdd
+        }
         ?>
+
+
+        <form action="prueba-cookies.php" method="post">
+            Usuario: <input type="text" name="usuario" value="<?php if(isset($_POST["volver"]))echo $_COOKIE["nombre"]; ?>">
+            <br>
+            Clave: <input type="password" name="clave" value="<?php if(isset($_POST["volver"]))echo $_COOKIE["clave"]; ?>">
+            <br>
+            <input type="checkbox" name="guardar_clave" value="1">Recuerdame<br>
+            <input type="submit" name="entrar" value="entrar">
+        </form> 
+
+
 
     </body>
 </html>
