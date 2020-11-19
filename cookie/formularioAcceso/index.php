@@ -13,16 +13,6 @@
         $error = $conex->errorInfo();
         echo $error[2];
 
-        if (isset($_POST['entrar']) && (!empty($_POST['usuario'])) && (!empty($_POST['clave']))) {
-            $result = $conex->query("SELECT * from usuarios");
-            $obj = $result->fetch();
-            if($_POST['usuario'] == $obj['usuario'] && md5($_POST['clave']) === $obj['contraseña']){
-                echo "Correcto";
-            }else{
-            echo "Incrorrecto";
-            }
-        }
-
 
         } catch (PDOException $exc) {
 
@@ -30,9 +20,24 @@
         echo "Error: " . $exc->getMessage(); //error del servidor de la bbdd
         }
         ?>
+        
+        <?php
+         if (isset($_POST['entrar']) && (!empty($_POST['usuario'])) && (!empty($_POST['clave']))) {
+            $result = $conex->query("SELECT * from usuarios");
+            $obj = $result->fetch();
+            if($_POST['usuario'] == $obj['usuario'] && md5($_POST['clave']) === $obj['contraseña']){
+                header('Location: prueba-cookies.php');
+            }else{
+            header('Location: index.php');
+            }
+        } else {
+  
+        
+        
+        ?>
 
 
-        <form action="prueba-cookies.php" method="post">
+        <form action="" method="post">
             Usuario: <input type="text" name="usuario" value="<?php if(isset($_POST["volver"]))echo $_COOKIE["nombre"]; ?>">
             <br>
             Clave: <input type="password" name="clave" value="<?php if(isset($_POST["volver"]))echo $_COOKIE["clave"]; ?>">
@@ -41,6 +46,10 @@
             <input type="submit" name="entrar" value="entrar">
         </form> 
 
+        <?php
+        
+        }
+        ?>
 
 
     </body>
