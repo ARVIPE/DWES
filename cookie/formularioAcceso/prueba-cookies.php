@@ -7,10 +7,15 @@
         <form action="index.php" method="post">
             <?php
             if(!empty($_POST["usuario"]) && !empty($_POST["clave"])){
-                if (isset($_POST["entrar"]) && isset($_POST["guardar_clave"])) {
+                if (isset($_POST["entrar"])) {
                     setcookie("nombre", $_POST['usuario']);
                     setcookie("clave", $_POST['clave']);
-                    setcookie('ultimoAcceso', date('d-m-y h:i:s'), time() + 3600);
+                    setcookie('ultimoAcceso', date('d-m-y h:i:s'), time() + 3600 * 24 * 365);
+                    
+                    if(isset($_POST["guardar_clave"])){
+                        setcookie('checkeo','checked');
+                    }
+                    
                 }
             }
 

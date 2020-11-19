@@ -33,9 +33,9 @@
 
 
         <form action="prueba-cookies.php" method="post">
-            Usuario: <input type="text" name="usuario" value="<?php if(isset($_POST["volver"]))echo $_COOKIE["nombre"]; ?>">
+            Usuario: <input type="text" name="usuario" value="<?php if(isset($_POST["volver"]) && isset($_COOKIE["checkeo"]))echo $_COOKIE["nombre"]; ?>">
             <br>
-            Clave: <input type="password" name="clave" value="<?php if(isset($_POST["volver"]))echo $_COOKIE["clave"]; ?>">
+            Clave: <input type="password" name="clave" value="<?php if(isset($_POST["volver"]) && isset($_COOKIE["checkeo"]))echo $_COOKIE["clave"]; ?>">
             <br>
             <input type="checkbox" name="guardar_clave" value="1">Recuerdame<br>
             <input type="submit" name="entrar" value="entrar">
