@@ -19,7 +19,7 @@
             if($_POST['usuario'] == $obj['usuario'] && md5($_POST['clave']) === $obj['contraseña']){
                 echo "Correcto";
             }else{
-            echo "Incrorrecto";
+            echo "Incorrecto";
             }
         }
 
