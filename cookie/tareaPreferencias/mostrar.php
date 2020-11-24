@@ -96,7 +96,7 @@
                
               session_destroy();
               
-              
+          
                
               header("Location: mostrar.php");
               
@@ -108,23 +108,16 @@
             <form action="" method="post">
                 <legend>Idioma:</br>
 
-                <?php
-                echo $_SESSION['idioma'];
-                ?>
+                <?php if (isset($_SESSION['idioma'])) echo $_SESSION['idioma'] ?>
 
                 </br>
                 Perfil público:</br>
 
-                <?php
-                echo $_SESSION['perfil'];
-                ?>
+                <?php if (isset($_SESSION['perfil'])) echo $_SESSION['perfil'] ?>
                 </br>
                 Zona horaria:</br>
 
-                <?php
-                echo $_SESSION['zona'];
-                ?>
-
+                <?php if (isset($_SESSION['zona'])) echo $_SESSION['zona'] ?>
 
                 </br>
 
