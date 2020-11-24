@@ -17,7 +17,9 @@
             $result = $conex->query("SELECT * from usuarios");
             $obj = $result->fetch();
             if($_POST['usuario'] == $obj['usuario'] && md5($_POST['clave']) === $obj['contraseña']){
-                echo "Correcto";
+                
+              header("Location: prueba-cookies.php");
+              
             }else{
             echo "Incorrecto";
             }
@@ -32,7 +34,7 @@
         ?>
 
 
-        <form action="prueba-cookies.php" method="post">
+        <form action="" method="post">
             Usuario: <input type="text" name="usuario" value="<?php if(isset($_POST["volver"]) && isset($_COOKIE["checkeo"]))echo $_COOKIE["nombre"]; ?>">
             <br>
             Clave: <input type="password" name="clave" value="<?php if(isset($_POST["volver"]) && isset($_COOKIE["checkeo"]))echo $_COOKIE["clave"]; ?>">
