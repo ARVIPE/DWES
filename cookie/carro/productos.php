@@ -46,7 +46,7 @@ http://www.w3.org/TR/html4/loose.dtd">
                     <input type="submit" name="salir" value="Salir ">
                 </form>
              
-                <p class='error'>  </p>";
+                <p class='error'>  </p>
                 
             </div>
             
