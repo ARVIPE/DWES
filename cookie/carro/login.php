@@ -11,32 +11,38 @@
         <link href="tienda.css" rel="stylesheet" type="text/css">
     </head>
     <body>
-<?php
-try {
+        <?php
+        try {
 
-    $opciones = array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_SERVER_VERSION);
-    $conex = new PDO('mysql:host=localhost; dbname=dwes; charset=UTF8mb4', 'dwes', 'abc123.', $opciones);
+            $opciones = array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_SERVER_VERSION);
+            $conex = new PDO('mysql:host=localhost; dbname=dwes; charset=UTF8mb4', 'dwes', 'abc123.', $opciones);
 
-    $error = $conex->errorInfo();
-    echo $error[2];
 
-    if (isset($_POST['enviar']) && (!empty($_POST['usuario'])) && (!empty($_POST['clave']))) {
-        $result = $conex->query("SELECT * from usuarios where contraseña='".md5($_POST['clave'])."' and usuario='$_POST[usuario]'");
-        $obj = $result->fetch();
-        if ($_POST['usuario'] == $obj['usuario'] && md5($_POST['clave']) === $obj['contraseña']) {
-            
-            header("Location: productos.php");
-        } else {
-            
-            echo "Incorrecto";
+
+            $error = $conex->errorInfo();
+            echo $error[2];
+
+            if (isset($_POST['enviar']) && (!empty($_POST['usuario'])) && (!empty($_POST['clave']))) {
+                $result = $conex->query("SELECT * from usuarios where contraseña='" . md5($_POST['clave']) . "' and usuario='$_POST[usuario]'");
+
+                $obj = $result->fetch();
+                if ($result->rowCount()) {
+
+                    session_name();
+                    session_start();
+
+                    header("Location: productos.php");
+                } else {
+
+                    echo "Incorrecto";
+                }
+            }
+        } catch (PDOException $exc) {
+
+            echo $exc->getTraceAsString(); //error de php
+            echo "Error: " . $exc->getMessage(); //error del servidor de la bbdd
         }
-    }
-} catch (PDOException $exc) {
-
-    echo $exc->getTraceAsString(); //error de php
-    echo "Error: " . $exc->getMessage(); //error del servidor de la bbdd
-}
-?>
+        ?>
 
         <div id='login'>
             <form action='' method='post'>
@@ -58,7 +64,7 @@ try {
             </form>
         </div>
 
-<?php ?>
+        <?php ?>
     </body>
 </html>
 
