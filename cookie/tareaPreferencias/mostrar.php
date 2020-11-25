@@ -109,7 +109,7 @@
                 <legend>Idioma:</br>
 
                 <?php if (isset($_SESSION['idioma'])) echo $_SESSION['idioma'] ?>
-
+                    
                 </br>
                 Perfil público:</br>
 

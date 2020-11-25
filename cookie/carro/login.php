@@ -22,15 +22,18 @@
             $error = $conex->errorInfo();
             echo $error[2];
 
-            if (isset($_POST['enviar']) && (!empty($_POST['usuario'])) && (!empty($_POST['clave']))) {
-                $result = $conex->query("SELECT * from usuarios where contraseña='" . md5($_POST['clave']) . "' and usuario='$_POST[usuario]'");
+            if (isset($_POST['enviar']) && (!empty($_POST['usuario'])) && (!empty($_POST['contraseña']))) {
+                $result = $conex->query("SELECT * from usuarios where contraseña='" . md5($_POST['contraseña']) . "' and usuario='".$_POST[usuario]."'");
 
-                $obj = $result->fetch();
+      
                 if ($result->rowCount()) {
 
                     session_name();
                     session_start();
 
+                    
+                    $_SESSION['nombre']=$_POST['usuario'];
+                    
                     header("Location: productos.php");
                 } else {
 
@@ -54,8 +57,8 @@
                         <input type='text' name='usuario' id='usuario' maxlength="50" /><br/>
                     </div>
                     <div class='campo'>
-                        <label for='clave' >Contraseña:</label><br/>
-                        <input type='password' name='clave' id='clave' maxlength="50" /><br/>
+                        <label for='contraseña' >Contraseña:</label><br/>
+                        <input type='password' name='contraseña' id='contraseña' maxlength="50" /><br/>
                     </div>
                     <div class='campo'>
                         <input type='submit' name='enviar' value='Enviar' />
