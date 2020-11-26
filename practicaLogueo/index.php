@@ -7,7 +7,10 @@
         <?php
         try {
 
+
+
             session_start();
+          
 
             $opciones = array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_SERVER_VERSION);
             $conex = new PDO('mysql:host=localhost; dbname=tema4_logueo; charset=UTF8mb4', 'dwes', 'abc123.', $opciones);
@@ -15,23 +18,19 @@
             $error = $conex->errorInfo();
             echo $error[2];
 
-
-            if (isset($_POST['entrar']) && (empty($_POST['usuario'])) && (empty($_POST['contraseña']))) {
-                if (isset($_COOKIE['login'])) {
-                    if ($_COOKIE['login'] > 1) {
-                        $intentos = $_COOKIE['login'] - 1;
-                        echo 'Te quedan '.$intentos.' intentos';
-                        setcookie('login', $intentos); 
-                    } else {
-                        echo 'Has sido baneado';
-                    }
+            if (isset($_COOKIE['login'])) {
+                if ($_COOKIE['login'] > 1) {
+                    $intentos = $_COOKIE['login'] - 1;
+                    echo 'Te quedan ' . $intentos . ' intentos';
+                    setcookie('login', $intentos);
                 } else {
-                    setcookie('login', 3); 
-                    echo 'Te quedan 3 intentos';
+                    echo 'Has sido baneado';
+                    header("Location: baneado.php");
                 }
+            } else {
+                setcookie('login', 3);
             }
 
-       
 
             if (isset($_POST['entrar']) && (!empty($_POST['usuario'])) && (!empty($_POST['contraseña']))) {
                 $result = $conex->query("SELECT * from perfil_usuario");
@@ -39,15 +38,9 @@
                 if ($_POST['usuario'] == $obj['nombre'] && md5($_POST['contraseña']) === $obj['pass']) {
 
                     header("Location: entrar.php");
-                } else {
-                    echo "Incorrecto";
-
                 }
             }
-            if (isset($_POST['registrar'])) {
-
-                header("Location: registrar.php");
-            }
+   
         } catch (PDOException $exc) {
 
             echo $exc->getTraceAsString(); //error de php
