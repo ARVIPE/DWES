@@ -30,15 +30,22 @@
             } else {
                 setcookie('login', 3);
             }
-
+            
 
             if (isset($_POST['entrar']) && (!empty($_POST['usuario'])) && (!empty($_POST['contraseña']))) {
-                $result = $conex->query("SELECT * from perfil_usuario");
-                $obj = $result->fetch();
-                if ($_POST['usuario'] == $obj['nombre'] && md5($_POST['contraseña']) === $obj['pass']) {
-
-                    header("Location: entrar.php");
+                $result = $conex->query("SELECT * from perfil_usuario where pass='" . md5($_POST['contraseña']) . "' and nombre='".$_POST[usuario]."'");
+                
+                if($result->rowCount()){
+                     $_SESSION['nombre'] = $_POST['usuario'];
+           
+                    header("Location: inicio.php");
                 }
+            }
+            
+            
+            if(isset($_POST['registrar'])){
+                
+                header("Location: registro.php");
             }
    
         } catch (PDOException $exc) {
