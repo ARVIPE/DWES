@@ -26,8 +26,6 @@
 
             while ($fila = $result->fetch(PDO::FETCH_OBJ)) {
 
-
-
                 if ($fila->tipo_letra == "Times New Roman") {
                      ?><body class="verdana"><?php
                     if ($fila->color_letra == "red") {
