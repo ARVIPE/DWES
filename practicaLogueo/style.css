@@ -223,4 +223,13 @@ border-left-style: solid;
 .rojo{
     color: red !important;
 }
+.azul{
+    color: blue !important;
+}
+.times{
+    font-family: Times New Roman;
+}
+.verdana{
+    font-family: Verdana;
+}
 

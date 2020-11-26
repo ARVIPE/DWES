@@ -7,8 +7,6 @@
 
         <?php
         session_start();
-
-        echo "Hola " . $_SESSION['nombre'];
         ?>
 
         <?php
@@ -23,13 +21,59 @@
             echo $error[2];
 
 
-            $result = $conex->query("SELECT color_letra from perfil_usuario where nombre='" . $_SESSION['nombre'] . "'");
-            
-            
-            
-            if (mysql_result($result) == "red") {
-                echo "holaasadasda";
-                ?><h2 class="rojo">Bienvenido a nuestra web</h2><?php
+            $result = $conex->query("SELECT color_letra, color_fondo, tipo_letra, tam_letra from perfil_usuario where nombre='" . $_SESSION['nombre'] . "'");
+
+
+            while ($fila = $result->fetch(PDO::FETCH_OBJ)) {
+
+
+
+                if ($fila->tipo_letra == "Times New Roman") {
+                     ?><body class="verdana"><?php
+                    if ($fila->color_letra == "red") {
+                        ?><label class="rojo"><?php echo "Hola ".$_SESSION['nombre']."</br>"; ?></label>
+                        <label class="rojo">Bienvenido a nuestra web</label><?php
+                    }
+
+                    if ($fila->color_letra == "blue") {
+                         ?><label class="azul"><?php echo "Hola ".$_SESSION['nombre']."</br>"; ?></label>
+                        <label class="azul">Bienvenido a nuestra web</label><?php
+                    }
+
+                    if ($fila->color_fondo == "green") {
+                        ?><body style="background-color:green;"><?php
+                    }
+
+                    if ($fila->color_fondo == "red") {
+                        ?><body style="background-color:red;"><?php
+                    }
+                    ?><?php
+                }
+                
+                  if ($fila->tipo_letra == "Verdana") {
+                    ?><body class="verdana"><?php
+                    if ($fila->color_letra == "red") {
+                        ?><label class="rojo"><?php echo "Hola ".$_SESSION['nombre']."</br>"; ?></label>
+                        <label class="rojo">Bienvenido a nuestra web</label><?php
+                    }
+
+                    if ($fila->color_letra == "blue") {
+                         ?><label class="azul"><?php echo "Hola ".$_SESSION['nombre']."</br>"; ?></label>
+                        <label class="azul">Bienvenido a nuestra web</label><?php
+                    }
+
+                    if ($fila->color_fondo == "green") {
+                        ?><body style="background-color:green;"><?php
+                    }
+
+                    if ($fila->color_fondo == "red") {
+                        ?><body style="background-color:red;"><?php
+                    }
+                    ?><?php
+                }
+                /**if ($fila->tam_letra == "red") {
+                    ?><h2 class="rojo">Bienvenido a nuestra web</h2><?php
+                }**/
             }
         } catch (PDOException $exc) {
 

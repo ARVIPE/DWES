@@ -33,7 +33,7 @@
             
 
             if (isset($_POST['entrar']) && (!empty($_POST['usuario'])) && (!empty($_POST['contraseña']))) {
-                $result = $conex->query("SELECT * from perfil_usuario where pass='" . md5($_POST['contraseña']) . "' and nombre='".$_POST[usuario]."'");
+                $result = $conex->query("SELECT * from perfil_usuario where pass='" . md5($_POST['contraseña']) . "' and nombre='".$_POST['usuario']."'");
                 
                 if($result->rowCount()){
                      $_SESSION['nombre'] = $_POST['usuario'];
@@ -59,7 +59,7 @@
                 <fieldset >
                     <legend>Login</legend>
                     <div class='campo'>
-                        <label for='usuario' >Usuario:</label><br/>
+                        <label for='usuario'>Usuario:</label><br/>
                         <input type='text' name='usuario' id='usuario' maxlength="50" /><br/>
                     </div>
                     <div class='campo'>

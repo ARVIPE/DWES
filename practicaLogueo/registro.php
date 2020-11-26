@@ -55,20 +55,20 @@
             Usuario<input type="text" name="usuario" value=""></br>
             pass<input type="password" name="pass" value=""></br>
             Color letra<select name="color">
-                <option  value="rojo">rojo</option>
-                <option  value="azul">azul</option>
+                <option  value="rojo">red</option>
+                <option  value="azul">blue</option>
             </select>
             Color fondo<select name="fondo">
-                <option  value="rojo">rojo</option>
-                <option  value="azul">azul</option>
+                <option  value="rojo">green</option>
+                <option  value="azul">red</option>
             </select>
             Tipo letra<select name="letra">
-                <option value="times">Times New Roman</option>
-                <option  value="calibri">Calibri</option>
+                <option value="Times New Roman">Times New Roman</option>
+                <option  value="Verdana">Verdana</option>
             </select>
             Tamaño letra: 
             <select name="tamanoLetra">
-                <?php foreach (range(1, 12) as $num): ?>
+                <?php foreach (range(1, 30) as $num): ?>
                     <option value="<?php echo $num; ?>"><?php echo $num; ?></option>
                 <?php endforeach; ?>
             </select>
