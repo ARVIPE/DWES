@@ -55,13 +55,7 @@ if (!isset($_SESSION['nombre'])) {
                             <input type="submit" name="vaciar" value="Vaciar Cesta"  >
 
                             
-                            <?php
-                                foreach ($datos as $i => $value) {
-                                    unset($datos[$i]);
-                                }
-                            
-                            ?>
-
+                           
 
 
 
