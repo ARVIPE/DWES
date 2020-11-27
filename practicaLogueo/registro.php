@@ -24,8 +24,10 @@
 
                     
                     
-                    $_SESSION['nombre'] = $_POST['usuario'];
-                    $_SESSION["color"] = $_POST['color'];
+                     while ($fila = $registro->fetch(PDO::FETCH_OBJ)) {
+                         $_SESSION['nombre'] = $fila->usuario;
+                         $_SESSION['fondo'] = $fila->color_fondo;
+                     }
                     
                     
                     header("Location: inicio.php");
@@ -67,10 +69,11 @@
                 <option  value="Verdana">Verdana</option>
             </select>
             Tamaño letra: 
-            <select name="tamanoLetra">
-                <?php foreach (range(1, 30) as $num): ?>
-                    <option value="<?php echo $num; ?>"><?php echo $num; ?></option>
-                <?php endforeach; ?>
+            Color letra<select name="tamanoLetra">
+                <option  value="16">16</option>
+                <option  value="30">30</option>
+                <option  value="44">44</option>
+                
             </select>
             </br>
             <input type="submit" name="enviar" value="enviar"/>

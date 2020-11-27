@@ -6,11 +6,15 @@
     <body>
         <?php
         try {
-
-
+            
+            if (isset($_COOKIE['login']) && ($intentos == 0)) {
+                header("Location: baneado.php");
+            } else {
+                setcookie('login', 3);
+            }
 
             session_start();
-          
+
 
             $opciones = array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_SERVER_VERSION);
             $conex = new PDO('mysql:host=localhost; dbname=tema4_logueo; charset=UTF8mb4', 'dwes', 'abc123.', $opciones);
@@ -18,36 +22,31 @@
             $error = $conex->errorInfo();
             echo $error[2];
 
-            if (isset($_COOKIE['login'])) {
-                if ($_COOKIE['login'] > 1) {
-                    $intentos = $_COOKIE['login'] - 1;
-                    echo 'Te quedan ' . $intentos . ' intentos';
-                    setcookie('login', $intentos);
-                } else {
-                    echo 'Has sido baneado';
-                    header("Location: baneado.php");
-                }
-            } else {
-                setcookie('login', 3);
-            }
-            
 
-            if (isset($_POST['entrar']) && (!empty($_POST['usuario'])) && (!empty($_POST['contraseña']))) {
-                $result = $conex->query("SELECT * from perfil_usuario where pass='" . md5($_POST['contraseña']) . "' and nombre='".$_POST['usuario']."'");
-                
-                if($result->rowCount()){
-                     $_SESSION['nombre'] = $_POST['usuario'];
-           
+            if (isset($_POST['entrar'])) {
+                $result = $conex->query("SELECT * from perfil_usuario where pass='" . md5($_POST['contraseña']) . "' and nombre='" . $_POST['usuario'] . "'");
+
+                if ($result->rowCount()) {
+                    $_SESSION['nombre'] = $_POST['usuario'];
+
                     header("Location: inicio.php");
+                }else{
+                    if ($_COOKIE['login'] > 1) {
+                        $intentos = $_COOKIE['login'] - 1;
+                        echo 'Te quedan ' . $intentos . ' intentos';
+                        setcookie('login', $intentos);
+                    } else {
+                        echo 'Has sido baneado';
+                        header("Location: baneado.php");
+                    }
                 }
             }
-            
-            
-            if(isset($_POST['registrar'])){
-                
+
+
+            if (isset($_POST['registrar'])) {
+
                 header("Location: registro.php");
             }
-   
         } catch (PDOException $exc) {
 
             echo $exc->getTraceAsString(); //error de php
