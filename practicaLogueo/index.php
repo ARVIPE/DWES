@@ -1,58 +1,70 @@
 <html>
     <head>
-        <title>login</title>
-        <link href="style.css" rel="stylesheet" type="text/css">
+        <meta charset="UTF-8">
+        <title></title>
+        <link rel="stylesheet" href="style.css"/>
     </head>
-    <body>
-        <?php
+
+    <?php
+    session_start();
+    if (isset($_COOKIE['intentos']) && ($_COOKIE['intentos']) == 0) {
+        header('location: baneado.php');
+    } else {
+        setcookie("intentos", 3);
+    }
+
+
+
+    if (isset($_POST['entrar'])) {
+
         try {
-            
-            if (isset($_COOKIE['login']) && ($intentos == 0)) {
-                header("Location: baneado.php");
-            } else {
-                setcookie('login', 3);
-            }
-
-            session_start();
-
-
-            $opciones = array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_SERVER_VERSION);
+            $opciones = array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION);
             $conex = new PDO('mysql:host=localhost; dbname=tema4_logueo; charset=UTF8mb4', 'dwes', 'abc123.', $opciones);
+            $result = $conex->query("SELECT * from perfil_usuario where nombre='$_POST[usuario]' and pass='" . md5($_POST["contraseña"]) . "'");
 
-            $error = $conex->errorInfo();
-            echo $error[2];
+            if ($result->rowCount()) {
 
 
-            if (isset($_POST['entrar'])) {
-                $result = $conex->query("SELECT * from perfil_usuario where pass='" . md5($_POST['contraseña']) . "' and nombre='" . $_POST['usuario'] . "'");
 
-                if ($result->rowCount()) {
-                    $_SESSION['nombre'] = $_POST['usuario'];
+                while ($obj = $result->fetch(PDO:: FETCH_OBJ)) {
+                    $_SESSION['nombre'] = $obj->nombre;
+                    $_SESSION['apellidos'] = $obj->apellidos;
+                    $_SESSION['direccion'] = $obj->direccion;
+                    $_SESSION['localidad'] = $obj->localidad;
+                    $_SESSION['color_letra'] = $obj->color_letra;
+                    $_SESSION['color_fondo'] = $obj->color_fondo;
+                    $_SESSION['tipo_letra'] = $obj->tipo_letra;
+                    $_SESSION['tam_letra'] = $obj->tam_letra;
+                }
+                $_SESSION['nombre'] = $_POST['nombre'];
+                header('location: inicio.php');
+            } else {
 
-                    header("Location: inicio.php");
-                }else{
-                    if ($_COOKIE['login'] > 1) {
-                        $intentos = $_COOKIE['login'] - 1;
-                        echo 'Te quedan ' . $intentos . ' intentos';
-                        setcookie('login', $intentos);
-                    } else {
-                        echo 'Has sido baneado';
-                        header("Location: baneado.php");
-                    }
+                $intentos = $_COOKIE["intentos"] - 1;
+                setcookie("intentos", $intentos);
+                echo "Te quedan " . $intentos . " intentos";
+
+
+                if ($intentos == 0) {
+                    header('location: baneado.php');
                 }
             }
 
-
             if (isset($_POST['registrar'])) {
 
-                header("Location: registro.php");
+                header('location: registro.php');
             }
+
+            $error = $conex->errorInfo();
         } catch (PDOException $exc) {
 
-            echo $exc->getTraceAsString(); //error de php
-            echo "Error: " . $exc->getMessage(); //error del servidor de la bbdd
+            echo $exc->getTraceAsString(); // error de php
+            echo 'Error:' . $exc->getMessage(); // error del servidor de bd
         }
-        ?>
+    }
+    ?>
+
+    <body>
         <div id='login'>
             <form action='' method='post'>
                 <fieldset >

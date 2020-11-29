@@ -2,15 +2,15 @@
 session_name();
 session_start();
 
-if(isset($_POST['salir'])){
-    setcookie(session_name(), "", time()-3600, "/");
+if (isset($_POST['salir'])) {
+    setcookie(session_name(), "", time() - 3600, "/");
     session_unset();
     session_destroy();
     header('location: index.php');
 }
 
-if(isset($_POST['ver'])){
-     header('location: datos.php');
+if (isset($_POST['volver'])) {
+    header('location: inicio.php');
 }
 
 if (isset($_COOKIE['intentos']) && $_COOKIE['intentos'] == 3) {
@@ -32,7 +32,16 @@ if (isset($_COOKIE['intentos']) && $_COOKIE['intentos'] == 3) {
             <h3>Hola <?php echo $_SESSION['nombre'] ?></h3>
             <br>
             <br>
-            <h1>Bienvenido a nuestra web</h1>
+            <h2>Sus datos son:</h2>
+            <br>
+            <br>
+            <p>Su nombre es: <?php echo $_SESSION['nombre'] ?></p>
+            <br>
+            <p>Su apellido es: <?php echo $_SESSION['apellidos'] ?></p>
+            <br>
+            <p>Su dirección es: <?php echo $_SESSION['direccion'] ?></p>
+            <br>
+            <p>Su localidad es: <?php echo $_SESSION['localidad'] ?></p>
             <br>
 
             <form action="" method="post">
@@ -41,9 +50,8 @@ if (isset($_COOKIE['intentos']) && $_COOKIE['intentos'] == 3) {
             <br>
 
             <form action="" method="post">
-                <input type="submit" name="ver" value="Ver datos">
+                <input type="submit" name="volver" value="Volver">
             </form>
-
         </body>
     </html>
     <?php

@@ -80,3 +80,22 @@
         </form>
     </body>
 </html>
+<div id='login'>
+            <form action='' method='post'>
+                <fieldset >
+                    <legend>Login</legend>
+                    <div class='campo'>
+                        <label for='usuario'>Usuario:</label><br/>
+                        <input type='text' name='usuario' id='usuario' maxlength="50" /><br/>
+                    </div>
+                    <div class='campo'>
+                        <label for='contraseña' >Contraseña:</label><br/>
+                        <input type='password' name='contraseña' id='contraseña' maxlength="50" /><br/>
+                    </div>
+                    <div class='campo'>
+                        <input type='submit' name='entrar' value='entrar' />
+                        <input type='submit' name='registrar' value='registrar' />
+                    </div>
+                </fieldset>
+            </form>
+        </div>
