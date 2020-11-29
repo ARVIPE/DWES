@@ -57,12 +57,12 @@
             Usuario<input type="text" name="usuario" value=""></br>
             pass<input type="password" name="pass" value=""></br>
             Color letra<select name="color">
-                <option  value="rojo">red</option>
-                <option  value="azul">blue</option>
+                <option  value="red">red</option>
+                <option  value="blue">blue</option>
             </select>
             Color fondo<select name="fondo">
-                <option  value="rojo">green</option>
-                <option  value="azul">red</option>
+                <option  value="green">green</option>
+                <option  value="red">red</option>
             </select>
             Tipo letra<select name="letra">
                 <option value="Times New Roman">Times New Roman</option>
