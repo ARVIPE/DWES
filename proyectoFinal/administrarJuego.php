@@ -21,15 +21,19 @@ if (isset($_POST['insertar'])) {
     $juego->nuevoJuego($result . "-" . $_POST['consola'], $_POST['nombre'], $_POST['consola'], $_POST['anno'], $_POST['precio'], "No", "imagenes/" . $_POST['foto'], $_POST['descripcion']);
 
 
-    //llama a la función insertar definida en el crud
-    $crud->insertar($juego);
-    header('Location: index.php');
-} elseif (isset($_POST['actualizar'])) {
-    $libro->setId($_POST['id']);
-    $libro->setNombre($_POST['nombre']);
-    $libro->setAutor($_POST['autor']);
-    $libro->setAnio_edicion($_POST['edicion']);
-    $crud->actualizar($libro);
-    header('Location: index.php');
+    //llama a la función insertar definida en el crud   
+    $crud->insertar($juego); 
+    header('Location: loginAdmin.php');
+} elseif (isset($_POST['editar'])) {
+
+    $codigo = isset($_REQUEST['codigo']) ? $_REQUEST['codigo'] : null;
+    
+    
+    $juego->nuevoJuego($codigo, $_POST['nombre'], $_POST['consola'], $_POST['anno'], $_POST['precio'], "No", "imagenes/" . $_POST['foto'], $_POST['descripcion']);
+
+    $crud->modificar($juego);
+    header('Location: alquilados.php');
 }
-?>
+
+
+

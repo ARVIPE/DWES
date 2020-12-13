@@ -29,8 +29,8 @@ $listaJuegos = $crud->mostrar();
             <br>
             <a href="añadir.php">Añadir juego &nbsp;</a>
             <a href="alquilados.php">Administrar juegos</a>
-            
-            <br> <br>
+
+            <br> <br> 
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
@@ -39,19 +39,16 @@ $listaJuegos = $crud->mostrar();
                         <th scope="col">Nombre consola</th>
                         <th scope="col">Año</th>
                         <th scope="col">Precio</th>
-                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($listaJuegos as $juego) { ?>
                         <tr>
                             <th><img src="<?php echo $juego->imagen; ?>" width="50px" height="70px"/></th>
-                            <th><?php echo $juego->nombre_juego ?></th>
+                            <th><?php echo $juego->nombre_juego ?></th> 
                             <th><?php echo $juego->nombre_consola ?></th>
                             <th><?php echo $juego->anno ?></th>
                             <th><?php echo $juego->precio ?></th>
-                            <th><input type="submit" name="alquilar" value="alquilar"></th>
-
                         </tr>
                     <?php } ?>
                 </tbody>

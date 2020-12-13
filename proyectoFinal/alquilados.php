@@ -8,6 +8,7 @@ $crud = new CrudJuego();
 $listaJuegos = $crud->mostrar();
 ?>
 
+
 <html>
     <head>
         <title>Crud</title>
@@ -16,13 +17,9 @@ $listaJuegos = $crud->mostrar();
     <body>
 
         <div class="container-fluid">  
-            <h2>Juegos Comares</h2>
-            <form action="login.php" method="post">
-                Dni:<input type="text" name="dni">
-                Contraseña:<input type="text" name="clave">
-                <input type="submit" name="login" value="login">
-            </form>
-            <br> <br>
+            <a href="loginAdmin.php">Volver</a>
+            <h1>Buscar juego</h1>
+            <br> <br> 
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
@@ -31,6 +28,7 @@ $listaJuegos = $crud->mostrar();
                         <th scope="col">Nombre consola</th>
                         <th scope="col">Año</th>
                         <th scope="col">Precio</th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -41,6 +39,8 @@ $listaJuegos = $crud->mostrar();
                             <th><?php echo $juego->nombre_consola ?></th>
                             <th><?php echo $juego->anno ?></th>
                             <th><?php echo $juego->precio ?></th>
+                              <th><a name="editar" href="editar.php?codigo=<?php echo $juego->codigo  ?>" >Edit</a>
+                                &nbsp;&nbsp;&nbsp;&nbsp; <a name="borrar" value="borrar" href="borrar.php?codigo=<?php echo $juego->codigo  ?>" >Delete</a></th>
                         </tr>
                     <?php } ?>
                 </tbody>
@@ -51,3 +51,4 @@ $listaJuegos = $crud->mostrar();
 
     </body>
 </html>
+

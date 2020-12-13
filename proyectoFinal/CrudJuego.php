@@ -28,37 +28,50 @@ class CrudJuego {
         }
     }
 
-
     public function insertar($juego) {
-         try {
-        $conex = new Conexion();
+        try {
+            $conex = new Conexion();
 
-        $conex->exec("INSERT INTO juegos (Codigo,Nombre_juego,Nombre_consola,Anno,Precio, Alguilado, Imagen, Descripcion) VALUES ('$juego->codigo','$juego->nombre_juego','$juego->nombre_consola','$juego->anno','$juego->precio', '$juego->alquilado', '$juego->imagen', '$juego->descripcion')");
-        
-         } catch (PDOException $ex){
-             echo "Error";
-         }
-        
-        
+            $conex->exec("INSERT INTO juegos (Codigo,Nombre_juego,Nombre_consola,Anno,Precio, Alguilado, Imagen, Descripcion) VALUES ('$juego->codigo','$juego->nombre_juego','$juego->nombre_consola','$juego->anno','$juego->precio', '$juego->alquilado', '$juego->imagen', '$juego->descripcion')");
+        } catch (PDOException $ex) {
+            echo "Error";
+        }
+    }
+
+    public function modificar($juego) {
+        try {
+            $conex = new Conexion();
+
+            $conex->exec("update juegos set Nombre_juego='$juego->nombre_juego',Nombre_consola='$juego->nombre_consola',Anno='$juego->anno',Precio='$juego->precio', Imagen='$juego->imagen', descripcion='$juego->descripcion' where codigo='$juego->codigo'");
+        } catch (PDOException $ex) {
+            echo "Error";
+        }
+    }
+
+    public function borrar($codigo) {
+        try {
+            $conex = new Conexion();
+
+            $conex->exec("delete from juegos where codigo='$codigo'");
+        } catch (Exception $ex) {
+            
+        }
     }
 
     public static function buscarProducto($codigo) {
-        try {
-            $conex = new Conexion();
-            $result = $conex->query("SELECT * FROM juegos WHERE codigo='$codigo'");
-            if ($result->rowCount()) {
-                $registro = $result->fetchObject();
-                $myJuego = new Juegos($registro->Codigo, $registro->Nombre_juego, $registro->Nombre_consola, $registro->Anno, $registro->Precio, $registro->Alguilado, $registro->Imagen);
-                // como es un objeto de la misma clase se puede hacer así
-                return $myJuego;
-            } else
-                return false;
-        } catch (PDOException $ex) {
-            //echo '<a href=index.php>Ir a1 inicio</a>';
-            //header('Location:index.php');
-            die('error con la base de datos' . $ex->getMessage());
+        $connection = new Conexion();
+        $listaJuegos = [];
+        $select = $connection->query("SELECT * FROM juegos WHERE codigo='$codigo'");
+
+
+        if ($select->rowCount()) {
+
+            while ($row = $select->fetchObject()) {
+                $myJuego = new Juego($row->Codigo, $row->Nombre_juego, $row->Nombre_consola, $row->Anno, $row->Precio, $row->Alguilado, $row->Imagen, $row->descripcion);
+                $listaJuegos[] = $myJuego;
+            }
+            return $listaJuegos;
         }
-        unset($conex);
     }
 
 }
