@@ -22,17 +22,28 @@ if (isset($_POST['insertar'])) {
 
 
     //llama a la función insertar definida en el crud   
-    $crud->insertar($juego); 
+    $crud->insertar($juego);
     header('Location: loginAdmin.php');
 } elseif (isset($_POST['editar'])) {
 
     $codigo = isset($_REQUEST['codigo']) ? $_REQUEST['codigo'] : null;
-    
-    
-    $juego->nuevoJuego($codigo, $_POST['nombre'], $_POST['consola'], $_POST['anno'], $_POST['precio'], "No", "imagenes/" . $_POST['foto'], $_POST['descripcion']);
 
-    $crud->modificar($juego);
-    header('Location: alquilados.php');
+    $listaJuegos = $crud->buscarProducto($codigo);
+
+  
+       
+        $juego = new Juego();
+        
+        $rutaWena = "imagenes/".$_POST['foto'];
+        
+   
+        $juego->nuevoJuego($codigo, $_POST['nombre'], $_POST['consola'], $_POST['anno'], $_POST['precio'], 'NO', $rutaWena,$_POST['descripcion']);
+        
+        $crud->modificar($juego);
+       
+  
+
+    header("Location: alquilados.php");
 }
 
 

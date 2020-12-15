@@ -17,17 +17,24 @@ if (isset($_POST['login'])) {
     $query->bindParam(':clave', $clave, PDO::PARAM_STR);
 
     $query->execute();
-
-   
-  
-    $result = $query->fetch(PDO::FETCH_ASSOC);
+    
     
   
+    $result = $query->fetch(PDO::FETCH_ASSOC);
+
+    
+    
     if (!$result) {
         echo '<p>Su nombre de usuario o de contraseña es incorrecto</p>';
     } else {
             echo '<p>Es correcto</p>';
-                    
+                
+                
+                $_SESSION['nombre'] =  $result["Nombre"];
+                $_SESSION['dni'] = $result["DNI"];
+              
+               
+                
                 // Si encuentra en el array algun elemento que contenga la palabra admin entonces vamos al admin
                 if(array_search('admin', $result)){ 
                     header("Location: loginAdmin.php");

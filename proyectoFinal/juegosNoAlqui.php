@@ -20,23 +20,11 @@ if (isset($_POST['cerrar'])) {
     }
 }
 
-if (isset($_POST['alquilar'])) {
-
-
-    $fechaA = date("Y-n-d");
-    
-
-    $crudAlquiler->insertar(null, $_POST['alquilar'], $_SESSION['dni'], $fechaA, null);
-    $crudAlquiler->cambiarAlquiler($_POST['alquilar']);
-}
 
 
 if (!isset($_SESSION['nombre'])) {
     header("Location: index.php");
 } else {
-    
-
-
 
 
 
@@ -50,12 +38,8 @@ if (!isset($_SESSION['nombre'])) {
 
             <style>      
                 
-                .img{
-                    filter: grayscale(1);
-                }
-                
-                .visibilidad{
-                    display: none;
+                .novisible{
+                   display: none;
                 }
                 
             </style>
@@ -66,9 +50,21 @@ if (!isset($_SESSION['nombre'])) {
             <div class="container-fluid">  
                 <h2>Juegos Comares</h2>
                 <h5>Bienvenido <?php echo $_SESSION['nombre'] ?></h5>
-               <form action="" method="post">
+                <form action="" method="post">
                     <input type="submit" name="cerrar" value="Cerrar sesion">   
                 </form>
+                  <?php 
+                if($_SESSION['nombre'] == "Admin"){
+                    ?>
+                <a href="loginAdmin.php">Volver</a>
+                <?php
+                }else{
+                    ?>
+                <a href="loginNormal.php">Volver</a>
+                <?php
+                }
+                
+                ?>
                 <a href="juegosAlqui.php">Listado de juegos alquilados &nbsp;</a>
                 <a href="juegosNoAlqui.php">Listado de juegos no alquilados &nbsp;</a>
                 <a href="misJuegos.php">Mis juegos alquilados</a>
@@ -88,13 +84,19 @@ if (!isset($_SESSION['nombre'])) {
                     <tbody>
                         <?php foreach ($listaJuegos as $juego) { ?>
                             <tr>
-                                <th><?php if(($juego->alquilado)=="SI"){ ?> <a href="vistaDescripcion.php?Codigo=<?php echo $juego->codigo ?>"> <img class="img" src="<?php echo $juego->imagen; ?>" width="50px" height="70px"/><?php }else{ ?> <a href="vistaDescripcion.php?Codigo=<?php echo $juego->codigo ?>"> <img src="<?php echo $juego->imagen; ?>" width="50px" height="70px"/><?php } ?></th>
-                                <th><?php echo $juego->nombre_juego ?></th> 
-                                <th><?php echo $juego->nombre_consola ?></th>
-                                <th><?php echo $juego->anno ?></th>
-                                <th><?php echo $juego->precio ?></th>
-                                <th> <form action="" method="post"><?php if(($juego->alquilado)=="SI"){ ?> <button class="visibilidad" type="submit" name="alquilar" value="<?php echo $juego->codigo ?>">Alquilar</button> <?php }else{ ?> <button type="submit" name="alquilar" value="<?php echo $juego->codigo ?>">Alquilar</button> <?php } ?></form> </th>
-                        <input type="hidden" name="alqui" value="<?php echo $juego->alquilado ?>">
+                                <?php if(($juego->alquilado)=="NO"){ ?> 
+                                    <th><img src="<?php echo $juego->imagen; ?>" width="50px" height="70px"/></th>
+                                    <th><?php echo $juego->nombre_juego ?></th> 
+                                    <th><?php echo $juego->nombre_consola ?></th>
+                                    <th><?php echo $juego->anno ?></th>
+                                    <th><?php echo $juego->precio ?></th>
+                                <?php }else{ ?>
+                                    <th class="novisible"><img src="<?php echo $juego->imagen; ?>" width="50px" height="70px"/></th>
+                                    <th class="novisible"><?php echo $juego->nombre_juego ?></th> 
+                                    <th class="novisible"><?php echo $juego->nombre_consola ?></th>
+                                    <th class="novisible"><?php echo $juego->anno ?></th>
+                                    <th class="novisible"><?php echo $juego->precio ?></th>
+                                <?php } ?>
                         </tr>
                     <?php } ?>
                     </tbody>

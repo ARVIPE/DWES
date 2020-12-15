@@ -32,7 +32,7 @@ class Juego {
         $this->descripcion = $descripcion;
     }
     
-    public function nuevoJuego($codigo, $nombre_juego, $nombre_consola, $anno, $precio, $alquilado, $imagen, $descripcion) {
+    public function nuevoJuego($codigo, $nombre_juego, $nombre_consola, $anno, $precio, $alquilado, $imagen = "", $descripcion) {
         $this->codigo = $codigo;
         $this->nombre_juego = $nombre_juego;
         $this->nombre_consola = $nombre_consola;

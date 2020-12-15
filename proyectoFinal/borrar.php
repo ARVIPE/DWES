@@ -12,7 +12,7 @@ $codigo = isset($_REQUEST['codigo']) ? $_REQUEST['codigo'] : null;
 
 $crud->borrar($codigo);
 
-header('Location: index.php');
+header('Location: alquilados.php');
 
 
 

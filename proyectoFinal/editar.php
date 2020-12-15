@@ -26,8 +26,8 @@ $listaJuegos = $crud->buscarProducto($codigo);
             <tr>
                 <td>
                     <form action="administrarJuego.php?codigo=<?php echo $juego->codigo  ?>" method="post">
-                        Nombre:<input type="text" name= "nombre" value=' <?php echo $juego->nombre_juego; ?>'></br>
-                        Consola:<input type="text" name="consola" value="<?php echo $juego->nombre_consola; ?>"></br>
+                        Nombre:<input type="text" name= "nombre" value="<?php echo $juego->nombre_juego; ?>" readonly></br>
+                        Consola:<input type="text" name="consola" value="<?php echo $juego->nombre_consola; ?>" readonly></br>
                         Año:<input type="number" name="anno" value="<?php echo $juego->anno; ?>"></br>
                         Precio:<input type="number" name="precio" value="<?php echo $juego->precio; ?>"></br>
                         Descripción:<textarea name="descripcion"><?php echo $juego->descripcion; ?></textarea></br>

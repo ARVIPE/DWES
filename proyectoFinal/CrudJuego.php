@@ -41,8 +41,14 @@ class CrudJuego {
     public function modificar($juego) {
         try {
             $conex = new Conexion();
-
-            $conex->exec("update juegos set Nombre_juego='$juego->nombre_juego',Nombre_consola='$juego->nombre_consola',Anno='$juego->anno',Precio='$juego->precio', Imagen='$juego->imagen', descripcion='$juego->descripcion' where codigo='$juego->codigo'");
+            
+            if($_POST['foto']){
+                $conex->exec("update juegos set Nombre_juego='$juego->nombre_juego',Nombre_consola='$juego->nombre_consola',Anno='$juego->anno',Precio='$juego->precio', Imagen='$juego->imagen', descripcion='$juego->descripcion' where codigo='$juego->codigo'");
+            }else{
+                $conex->exec("update juegos set Nombre_juego='$juego->nombre_juego',Nombre_consola='$juego->nombre_consola',Anno='$juego->anno',Precio='$juego->precio', descripcion='$juego->descripcion' where codigo='$juego->codigo'");
+            }
+            
+            
         } catch (PDOException $ex) {
             echo "Error";
         }
@@ -63,8 +69,7 @@ class CrudJuego {
         $listaJuegos = [];
         $select = $connection->query("SELECT * FROM juegos WHERE codigo='$codigo'");
 
-
-        if ($select->rowCount()) {
+         if ($select->rowCount()) {
 
             while ($row = $select->fetchObject()) {
                 $myJuego = new Juego($row->Codigo, $row->Nombre_juego, $row->Nombre_consola, $row->Anno, $row->Precio, $row->Alguilado, $row->Imagen, $row->descripcion);
@@ -72,6 +77,16 @@ class CrudJuego {
             }
             return $listaJuegos;
         }
+    
+    }
+    
+     public static function buscarProductoDescripcion($codigo) {
+        $connection = new Conexion();
+        $listaJuegos = [];
+        $select = $connection->query("SELECT * FROM juegos WHERE codigo='$codigo'");
+
+        return $select;
+    
     }
 
 }
